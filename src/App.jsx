@@ -5,6 +5,7 @@ import ProfileForm from './components/ProfileForm'
 import AxiosInstance from './AxiosInstance'
 import NextFormPage from './components/NextFormPage'
 import ChatPage from './components/ChatPage'
+import MyProfilePage from './components/MyProfilePage'
 
 function App() {
 
@@ -25,9 +26,10 @@ function App() {
   return (
     <>
     <Routes>
-      <Route path='/nextPage' element={<ProfileForm/>}/>
+      <Route path='/' element={<ProfileForm/>}/>
       <Route path='/next-form-page' element={<NextFormPage/>}/>
       <Route path='/chat' element={<ChatPage/>}/>
+      <Route path='/my-profile' element={<MyProfilePage/>}/>
     </Routes>
     </>
   )
