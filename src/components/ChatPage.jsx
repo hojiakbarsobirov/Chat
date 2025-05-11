@@ -1,7 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';  // Bu yerda useState va useEffect import qilinadi
 import AxiosInstance from '../AxiosInstance';
 import MenuModalPage from './MenuModalPage';
 import { Link } from 'react-router-dom';
+
 
 const ChatPage = () => {
   const userProfile = JSON.parse(localStorage.getItem('userProfile'));
@@ -33,7 +34,8 @@ const ChatPage = () => {
     if (!trimmedMessage) return;
 
     try {
-      await AxiosInstance.post('chat', { chat: trimmedMessage });
+      // Send the user's name along with the chat message
+      await AxiosInstance.post('chat', { chat: trimmedMessage, userName: userProfile.name });
       setMessage('');
       getData();
     } catch (err) {
@@ -69,17 +71,24 @@ const ChatPage = () => {
               <em className="font-medium text-lg">Chatly 👋🏻</em>
             </div>
 
-            <div className="w-full h-full flex flex-col justify-end gap-4">
-              {data.map((item, index) => (
-                <div key={index} className="flex items-center space-x-3">
-                  <div className="bg-gray-300 px-4 py-2 rounded-xl">
-                    <p>{item.chat}</p>
+            <div className="w-full h-full flex flex-col justify-start items-end gap-4">
+              {data.map((item, index) => {
+                // Check if userName exists, then get first letter
+                const userFirstLetter = item.userName ? item.userName.charAt(0).toUpperCase() : '';
+
+                return (
+                  <div key={index} className="flex items-center space-x-3">
+                    {/* Display message */}
+                    <div className={`px-4 py-2 rounded-xl ${item.userName === userProfile.name ? 'bg-purple-600 text-white' : 'bg-gray-300'}`}>
+                      <p>{item.chat}</p>
+                    </div>
+                    {/* Display user's first letter */}
+                    <div className="w-10 h-10 rounded-full bg-purple-600 text-white flex items-center justify-center font-bold">
+                      {userFirstLetter}
+                    </div>
                   </div>
-                  <div className="w-10 h-10 rounded-full bg-purple-600 text-white flex items-center justify-center font-bold">
-                    {firstLetter}
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
 
